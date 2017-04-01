@@ -1,3 +1,5 @@
+Eric Glover
+
 assignment_toh
 ==============
 
