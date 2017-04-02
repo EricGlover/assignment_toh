@@ -6,6 +6,8 @@
 #Goal:
 #build an interactive towers of Hanoi command line game
 
+#Status : Operational 
+
 #Features:
 #check for valid input
 #print out the currrent board
@@ -29,14 +31,17 @@
 #user input
 #consider adding a Rando-Kalrizian feature, where you attempt to solve the puzzle faster than Rando-Kalrizian can (with rando just making random moves obviously)
 #consider adding scrolling text
+#add commands like print the current board at anytime, or a print moves (print all your previous moves) or a print number of moves
 
 class TowersOfHanoi
   #create n positions and throw them into an array
   #the number of positions  == the number of disks, all disks start stacked in the first position
-  def initialize number_of_positions
-    @number_of_positions = number_of_positions
-    @number_of_disks = number_of_positions      #redundant but for clarity
+    #incorrect
+  def initialize number_of_disks
+    @number_of_positions = 3
+    @number_of_disks = number_of_disks
     @positions = []
+    @moves = 0        #a move counter
     #initialize positions
     @number_of_positions.times do |i|
       #new_position = Array.new(number_of_positions)     #if we keep the empty spots set to nil, later it won't print them (as opposed to working around 0)
@@ -54,7 +59,11 @@ class TowersOfHanoi
   def print_towers
     @number_of_disks.times do |i|
       @number_of_positions.times do |j|
-        print "#{@positions[j][ -(i+1) ]} "
+        #print "#{@positions[j][ -(i+1) ]} "
+        print "#{@positions[j][ @number_of_disks - 1 - i]} "
+        if @positions[j][ @number_of_disks - 1 - i] == nil
+          print " "
+        end
       end
       puts ""
     end
@@ -103,17 +112,9 @@ class TowersOfHanoi
 
 #check if the move is legal
   def check_move (from, to)
-    puts @positions[from - 1].empty?
-    puts @positions[to - 1].empty?
-    puts from
-    puts to
-
     if @positions[from - 1].empty?
-      puts "from empty"
       return false
-
     elsif @positions[to - 1].empty?
-      puts "to empty"
       return true
     elsif to == from
       return false
@@ -126,6 +127,13 @@ class TowersOfHanoi
     else
       return true
     end
+  end
+
+  #move a disk from one spot to another
+  def move (from, to)
+    disk = @positions[from - 1].pop
+    @positions[to - 1] << disk
+    @moves = @moves + 1
   end
 
   #the game is over when all the stacks are in position C, sorted biggest to smallest
@@ -152,14 +160,20 @@ class TowersOfHanoi
         puts "Which stack position should we put it at?"
         input_to = gets.chomp
         valid_input = check_input(input_from, input_to)
+        if valid_input
+          valid_input = check_move(input_from.to_i, input_to.to_i)
+          if !valid_input
+            puts "I'm sorry but that's not possible"
+          end
+        end
       end
 
       #move disk
-      puts check_move(input_from.to_i, input_to.to_i)
+      move(input_from.to_i, input_to.to_i)
       #print new tower setup
-      #print_towers
+      print_towers
     end
-
+    #print a victory screen
 
   end
 
