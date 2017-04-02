@@ -9,19 +9,20 @@
 #Status : Operational
 
 #Issues :
-  #print won't work as is if number_of_disks has more than 1 digit 
+  #print won't work as is if number_of_disks has more than 1 digit
+  #print towers screen looks bad (better now but still)
 
 #Current Features:
 #check for valid input
 #print out the currrent board
 #allow the user to quit
 #start screen
+#victory screen
 
 #Features yet to be implemented :
 #consider adding a Rando-Kalrizian feature, where you attempt to solve the puzzle faster than Rando-Kalrizian can (with rando just making random moves obviously)
 #consider adding scrolling text
 #add commands like print the current board at anytime, or a print moves (print all your previous moves) or a print number of moves
-#add a victory screen
 #implement a hint function (make sure it's terribly unhelpful, for instance : hint -> you made a mistake a few moves ago)
 
 #basic Implementation Notes :
@@ -30,7 +31,7 @@
 
   #function list
 #def initialize (number_of_disks)
-#def print_towers
+#def render
 #def welcome_mat
 #def check_input (input_from, input_to)
 #def check_move (from, to)
@@ -51,22 +52,20 @@ class TowersOfHanoi
 
     #initialize positions
     @number_of_positions.times do |i|
-      #new_position = Array.new(number_of_positions)     #if we keep the empty spots set to nil, later it won't print them (as opposed to working around 0)
-      new_position = []   #no more nils plz
+      new_position = []
       @positions << new_position
     end
 
     #add the disks to the first position
     @number_of_disks.times do |i|
-      #@positions[0][i] = i + 1
       @positions[0][i] = @number_of_disks - i
     end
   end
 
-  def print_towers
+  def render
+    puts '#######################################################'
     @number_of_disks.times do |i|
       @number_of_positions.times do |j|
-        #print "#{@positions[j][ -(i+1) ]} "
         print "#{@positions[j][ @number_of_disks - 1 - i]} "
         if @positions[j][ @number_of_disks - 1 - i] == nil
           print " "
@@ -78,7 +77,7 @@ class TowersOfHanoi
       print (97 + i).chr + " "
     end
     puts ""
-
+    puts '#######################################################'
   end
 
   #
@@ -90,9 +89,10 @@ class TowersOfHanoi
       #if you later want to have the user decide how many disks there are use this
     #puts  "Its, 7, noo...18...no..gee I'm terrible at counting, how many disks are on that tower??"
     #number_of_disks = gets.chomp.to_i
-    print "Yeah #{@number_of_disks} is crazy high man.\n"
+    render
+    print "Yeah #{@number_of_disks} disks high is crazy man.\n"
 
-    print_towers
+
     puts "As you can see the tower is on the left (position A) and we need to move it all to the right (position C)"
     puts "But we have to move it without ever moving a bigger disk on top of a smaller one."
     puts "Ok, I know how you wizard types are- very busy and whatnot - so just start telling me where to move the disks and we'll get right on it!"
@@ -158,7 +158,7 @@ class TowersOfHanoi
   def victory
     puts "Thank you so much! We've finally done it!"
     puts "Look at it in all it's magnificience!"
-    print_towers
+    render
     puts "And to think it only took #{@moves} moves, you truly are a wizard"    #perhaps add a rating system? ex :  you truly are..n't a wizard....
   end
 
@@ -168,7 +168,7 @@ class TowersOfHanoi
 
       #get user input
       valid_input = false
-      until valid_input       #implementation note, opting to have them put numbers on different lines to lessen the load of parsing
+      until valid_input
         puts "What's the stack position of the disk you want moved?"
         input_from = gets.chomp
         puts "Which stack position should we put it at?"
@@ -185,7 +185,8 @@ class TowersOfHanoi
       #move disk
       move(input_from.to_i, input_to.to_i)
       #print new tower setup
-      print_towers
+      render
+
     end
     #print a victory screen
     victory
@@ -195,5 +196,5 @@ end
 
 
 #run game script
-b = TowersOfHanoi.new 3
-b.play
+#b = TowersOfHanoi.new 3
+#b.play
