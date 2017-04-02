@@ -27,8 +27,7 @@
 
 #start screen
 #user input
-
-#tiemz to hax shit
+#consider adding a Rando-Kalrizian feature, where you attempt to solve the puzzle faster than Rando-Kalrizian can (with rando just making random moves obviously)
 
 class TowersOfHanoi
   #create n positions and throw them into an array
@@ -54,6 +53,21 @@ class TowersOfHanoi
       print "tower #{i}: "
       puts @positions[i]
     end
+  end
+
+  #
+  def welcome_mat
+    print "Have you come to join the celebration!? The Apocalypse is nigh!\n"
+    puts "Oh WAIT "
+    puts "You're the Wizard! The one who's come to instruct the priests on the completion of our great Tower of Hanoi!"
+    print "Simply marvelous..what a stroke of luck we had finding you, I certainly could never figure this thing out, I mean just look at it!\n"
+      #if you later want to have the user decide how many disks there are use this
+    #puts  "Its, 7, noo...18...no..gee I'm terrible at counting, how many disks are on that tower??"
+    #number_of_disks = gets.chomp.to_i
+    print "Yeah #{@number_of_disks} is crazy high man.\n"
+    puts "Ok, I know how you wizard types are- very busy and whatnot - so just start telling me where to move the disks and we'll get right on it!"
+    #print current setup
+    
   end
 
   #..
