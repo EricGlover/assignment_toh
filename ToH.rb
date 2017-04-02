@@ -74,18 +74,27 @@ class TowersOfHanoi
     #puts  "Its, 7, noo...18...no..gee I'm terrible at counting, how many disks are on that tower??"
     #number_of_disks = gets.chomp.to_i
     print "Yeah #{@number_of_disks} is crazy high man.\n"
+
+    print_towers
+    puts "As you can see the tower is on the left (position A) and we need to move it all to the right (position C)"
+    puts "But we have to move it without ever moving a bigger disk on top of a smaller one."
     puts "Ok, I know how you wizard types are- very busy and whatnot - so just start telling me where to move the disks and we'll get right on it!"
-    #print current setup
-    #puts "Just say 1,3 for instance and I'll move the top disk of stack #1 to stack #3"
+    puts "(Enter 'quit' at any time to stop)"
   end
 
 #check user input, needs to be a reasonable number and you can't move a bigger disk onto a smaller one
   def check_input (input_from, input_to)
+    if (input_from == "quit" || input_to == "quit")
+      puts "Quitting"
+      exit
+    end
+    input_to = input_to.to_i
+    input_from = input_from.to_i
     if !(1..@number_of_positions).include?(input_to)
       return false
     elsif !(1..@number_of_positions).include?(input_from)
       return false
-    elsif false #write later
+    elsif false
 
     else
 
@@ -94,17 +103,34 @@ class TowersOfHanoi
     return true
   end
 
+  #the game is over when all the stacks are in position C, sorted biggest to smallest
+  def game_over?
+    @correct_stack = []
+    stack_c = @positions[@number_of_positions - 1]
+    @number_of_disks.times do |i|
+      if stack_c[i] != @number_of_disks - i
+        print stack_c[i]
+        puts " / #{i + 1}"
+        return false
+      end
+    end
+    return true
+  end
+
   def play
     welcome_mat
     valid_input = false
-
-    until valid_input       #implementation note, opting to have them put numbers on different lines to lessen the load of parsing
-      puts "What's the stack position of the disk you want moved?"
-      input_from = gets.chomp.to_i
-      puts "Which stack position should we put it at?"
-      input_to = gets.chomp.to_i
-      valid_input = check_input(input_from, input_to)
+    until game_over?
+      until valid_input       #implementation note, opting to have them put numbers on different lines to lessen the load of parsing
+        puts "What's the stack position of the disk you want moved?"
+        input_from = gets.chomp
+        puts "Which stack position should we put it at?"
+        input_to = gets.chomp
+        valid_input = check_input(input_from, input_to)
+      end
     end
+
+
   end
 
 end
