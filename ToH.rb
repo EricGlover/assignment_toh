@@ -39,7 +39,8 @@ class TowersOfHanoi
     @positions = []
     #initialize positions
     @number_of_positions.times do |i|
-      new_position = Array.new(number_of_positions)     #if we keep the empty spots set to nil, later it won't print them (as opposed to working around 0)
+      #new_position = Array.new(number_of_positions)     #if we keep the empty spots set to nil, later it won't print them (as opposed to working around 0)
+      new_position = []   #no more nils plz
       @positions << new_position
     end
     #self.print_towers
@@ -84,6 +85,7 @@ class TowersOfHanoi
 
 #check user input, needs to be a reasonable number and you can't move a bigger disk onto a smaller one
   def check_input (input_from, input_to)
+    #first we check for "quit", then check that inputs are in correct range
     if (input_from == "quit" || input_to == "quit")
       puts "Quitting"
       exit
@@ -94,13 +96,36 @@ class TowersOfHanoi
       return false
     elsif !(1..@number_of_positions).include?(input_from)
       return false
-    elsif false
-
     else
+      return true
+    end
+  end
 
+#check if the move is legal
+  def check_move (from, to)
+    puts @positions[from - 1].empty?
+    puts @positions[to - 1].empty?
+    puts from
+    puts to
+
+    if @positions[from - 1].empty?
+      puts "from empty"
+      return false
+
+    elsif @positions[to - 1].empty?
+      puts "to empty"
+      return true
+    elsif to == from
+      return false
     end
 
-    return true
+    to_disk = @positions[to - 1].last
+    from_disk = @positions[from - 1].last
+    if from_disk > to_disk
+      return false
+    else
+      return true
+    end
   end
 
   #the game is over when all the stacks are in position C, sorted biggest to smallest
@@ -109,8 +134,6 @@ class TowersOfHanoi
     stack_c = @positions[@number_of_positions - 1]
     @number_of_disks.times do |i|
       if stack_c[i] != @number_of_disks - i
-        print stack_c[i]
-        puts " / #{i + 1}"
         return false
       end
     end
@@ -119,8 +142,10 @@ class TowersOfHanoi
 
   def play
     welcome_mat
-    valid_input = false
     until game_over?
+
+      #get user input
+      valid_input = false
       until valid_input       #implementation note, opting to have them put numbers on different lines to lessen the load of parsing
         puts "What's the stack position of the disk you want moved?"
         input_from = gets.chomp
@@ -128,6 +153,11 @@ class TowersOfHanoi
         input_to = gets.chomp
         valid_input = check_input(input_from, input_to)
       end
+
+      #move disk
+      puts check_move(input_from.to_i, input_to.to_i)
+      #print new tower setup
+      #print_towers
     end
 
 
