@@ -28,6 +28,7 @@
 #start screen
 #user input
 #consider adding a Rando-Kalrizian feature, where you attempt to solve the puzzle faster than Rando-Kalrizian can (with rando just making random moves obviously)
+#consider adding scrolling text
 
 class TowersOfHanoi
   #create n positions and throw them into an array
@@ -38,21 +39,29 @@ class TowersOfHanoi
     @positions = []
     #initialize positions
     @number_of_positions.times do |i|
-      new_position = Array.new(number_of_positions, 0)
+      new_position = Array.new(number_of_positions)     #if we keep the empty spots set to nil, later it won't print them (as opposed to working around 0)
       @positions << new_position
     end
     #self.print_towers
     #add the disks to the first position
     @number_of_disks.times do |i|
-      @positions[0][i] = i + 1
+      #@positions[0][i] = i + 1
+      @positions[0][i] = @number_of_disks - i
     end
   end
 
   def print_towers
-    @number_of_positions.times do |i|
-      print "tower #{i}: "
-      puts @positions[i]
+    @number_of_disks.times do |i|
+      @number_of_positions.times do |j|
+        print "#{@positions[j][ -(i+1) ]} "
+      end
+      puts ""
     end
+    @number_of_positions.times do |i|
+      print (97 + i).chr + " "
+    end
+    puts ""
+
   end
 
   #
@@ -67,12 +76,38 @@ class TowersOfHanoi
     print "Yeah #{@number_of_disks} is crazy high man.\n"
     puts "Ok, I know how you wizard types are- very busy and whatnot - so just start telling me where to move the disks and we'll get right on it!"
     #print current setup
-    
+    #puts "Just say 1,3 for instance and I'll move the top disk of stack #1 to stack #3"
   end
 
-  #..
+#check user input, needs to be a reasonable number and you can't move a bigger disk onto a smaller one
+  def check_input (input_from, input_to)
+    if !(1..@number_of_positions).include?(input_to)
+      return false
+    elsif !(1..@number_of_positions).include?(input_from)
+      return false
+    elsif false #write later
+
+    else
+
+    end
+
+    return true
+  end
+
+  def play
+    welcome_mat
+    valid_input = false
+
+    until valid_input       #implementation note, opting to have them put numbers on different lines to lessen the load of parsing
+      puts "What's the stack position of the disk you want moved?"
+      input_from = gets.chomp.to_i
+      puts "Which stack position should we put it at?"
+      input_to = gets.chomp.to_i
+      valid_input = check_input(input_from, input_to)
+    end
+  end
+
 end
 b = TowersOfHanoi.new 3
-b.print_towers
-b.positions[0][0] = 1
-b.print_towers
+#b.print_towers
+b.play
