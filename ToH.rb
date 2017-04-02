@@ -6,49 +6,53 @@
 #Goal:
 #build an interactive towers of Hanoi command line game
 
-#Status : Operational 
+#Status : Operational
 
-#Features:
+#Current Features:
 #check for valid input
 #print out the currrent board
-  #how do?    print vertically or horizontally?
-  # #
-  ####  #####
-  # 1     2     3
-
-  #A
-  #B  2 1
-  #C  3
-
-  #Disks      :
-  # =>            22
-  # =>            333         1
-  #Positions  :   1     2     3     #Positions  :   A     B     C
 #allow the user to quit
-#implement a hint function (make sure it's terribly unhelpful, for instance : hint -> you made a mistake a few moves ago)
-
 #start screen
-#user input
+
+#Features yet to be implemented :
 #consider adding a Rando-Kalrizian feature, where you attempt to solve the puzzle faster than Rando-Kalrizian can (with rando just making random moves obviously)
 #consider adding scrolling text
 #add commands like print the current board at anytime, or a print moves (print all your previous moves) or a print number of moves
+#add a victory screen
+#implement a hint function (make sure it's terribly unhelpful, for instance : hint -> you made a mistake a few moves ago)
+
+#basic Implementation Notes :
+#we keep track of the disks as a number, with 3 being bigger than 1, etc..
+#the disks are stored in @positions[][]
+
+  #function list
+#def initialize (number_of_disks)
+#def print_towers
+#def welcome_mat
+#def check_input (input_from, input_to)
+#def check_move (from, to)
+#def move (from, to)
+#def game_over?
+#def play
+#def victory 
+
 
 class TowersOfHanoi
-  #create n positions and throw them into an array
-  #the number of positions  == the number of disks, all disks start stacked in the first position
-    #incorrect
+
   def initialize number_of_disks
+
     @number_of_positions = 3
     @number_of_disks = number_of_disks
     @positions = []
     @moves = 0        #a move counter
+
     #initialize positions
     @number_of_positions.times do |i|
       #new_position = Array.new(number_of_positions)     #if we keep the empty spots set to nil, later it won't print them (as opposed to working around 0)
       new_position = []   #no more nils plz
       @positions << new_position
     end
-    #self.print_towers
+
     #add the disks to the first position
     @number_of_disks.times do |i|
       #@positions[0][i] = i + 1
@@ -148,6 +152,13 @@ class TowersOfHanoi
     return true
   end
 
+  def victory
+    puts "Thank you so much! We've finally done it!"
+    puts "Look at it in all it's magnificience!"
+    print_towers
+    puts "And to think it only took #{@moves} moves, you truly are a wizard"    #perhaps add a rating system? ex :  you truly are..n't a wizard....
+  end
+
   def play
     welcome_mat
     until game_over?
@@ -174,7 +185,7 @@ class TowersOfHanoi
       print_towers
     end
     #print a victory screen
-
+    victory
   end
 
 end
