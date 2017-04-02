@@ -8,6 +8,9 @@
 
 #Status : Operational
 
+#Issues :
+  #print won't work as is if number_of_disks has more than 1 digit 
+
 #Current Features:
 #check for valid input
 #print out the currrent board
@@ -34,7 +37,7 @@
 #def move (from, to)
 #def game_over?
 #def play
-#def victory 
+#def victory
 
 
 class TowersOfHanoi
@@ -189,6 +192,8 @@ class TowersOfHanoi
   end
 
 end
+
+
+#run game script
 b = TowersOfHanoi.new 3
-#b.print_towers
 b.play
